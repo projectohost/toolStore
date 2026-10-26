@@ -410,6 +410,19 @@ aside h3 {
   margin-top: auto;
 }
 
+/* Стилі для акційної та закресленої ціни */
+.price-block {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.old-price {
+  font-size: 14px;
+  color: #9ca3af;
+  text-decoration: line-through;
+}
+
 .product-price {
   font-size: 20px;
   font-weight: bold;
