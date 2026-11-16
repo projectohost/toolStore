@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
   let cart = [];
+  try {
+    const saved = JSON.parse(localStorage.getItem('electrotool_cart') || '[]');
+    if (Array.isArray(saved)) cart = saved.filter(id => Object.hasOwn(PRODUCTS, id)).map(id => ({ id, ...PRODUCTS[id] }));
+  } catch (error) { /* Кошик працює і без доступу до сховища. */ }
   
   const modalHTML = `
     <div id="cart-modal" class="cart-modal-overlay" style="display: none;">
@@ -81,18 +85,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   addToCartButtons.forEach(button => {
     button.addEventListener('click', (e) => {
-      const card = e.target.closest('.product-card');
-      const title = card.querySelector('.product-title').innerText;
-      const priceText = card.querySelector('.product-price').innerText;
-      const price = parseInt(priceText.replace(/\D/g, ''));
-
-      cart.push({ title, price });
+      const id = button.dataset.productId;
+      const product = PRODUCTS[id];
+      if (!product) return;
+      const quantityInput = button.closest('.purchase-controls')?.querySelector('input');
+      const quantity = quantityInput ? Math.min(99, Math.max(1, Math.trunc(Number(quantityInput.value)) || 1)) : 1;
+      if (quantityInput) quantityInput.value = quantity;
+      const title = product.title;
+      for (let i = 0; i < quantity; i++) cart.push({ id, ...product });
       updateCartUI();
       showNotification(`Товар "${title}" додано до кошика!`);
     });
   });
 
   function updateCartUI() {
+    try { localStorage.setItem('electrotool_cart', JSON.stringify(cart.map(item => item.id))); } catch (error) {}
     cartItemsList.innerHTML = '';
     let total = 0;
 
@@ -105,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const li = document.createElement('li');
         li.className = 'cart-item';
         li.innerHTML = `
-          <span>${item.title} — <b>${item.price} ₴</b></span>
+          <span>${escapeHTML(item.title)} — <b>${item.price} ₴</b></span>
           <button type="button" class="cart-item-remove" data-index="${index}">Видалити</button>
         `;
         cartItemsList.appendChild(li);
@@ -123,6 +130,9 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  updateCartUI();
+  window.addEventListener('pageshow', event => { if (event.persisted) location.reload(); });
 
   // --- СЛАЙДЕР ФОТО З ЗАГЛУШКОЮ ---
   const productImageContainers = document.querySelectorAll('.product-image');
@@ -153,15 +163,23 @@ document.addEventListener('DOMContentLoaded', () => {
       container.innerHTML = '<span class="product-image-placeholder">Фото відсутнє</span>';
     };
 
-    container.appendChild(img);
+    const link = document.createElement('a');
+    link.href = `product.html?id=${encodeURIComponent(container.closest('.product-card').dataset.productId)}`;
+    img.alt = container.closest('.product-card').querySelector('.product-title').textContent;
+    link.appendChild(img);
+    container.appendChild(link);
 
     if (imageList.length > 1) {
       const prevBtn = document.createElement('button');
       prevBtn.className = 'slider-btn prev';
+      prevBtn.type = 'button';
+      prevBtn.setAttribute('aria-label', 'Попереднє фото');
       prevBtn.innerHTML = '&#10094;';
 
       const nextBtn = document.createElement('button');
       nextBtn.className = 'slider-btn next';
+      nextBtn.type = 'button';
+      nextBtn.setAttribute('aria-label', 'Наступне фото');
       nextBtn.innerHTML = '&#10095;';
 
       container.appendChild(prevBtn);
@@ -214,6 +232,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function performSearch() {
     const query = searchInput.value.toLowerCase().trim();
+    if (!document.getElementById('catalog')) {
+      location.href = `index.html?q=${encodeURIComponent(query)}`;
+      return;
+    }
     productCards.forEach(card => {
       const title = card.querySelector('.product-title').innerText.toLowerCase();
       if (title.includes(query)) {
@@ -226,6 +248,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (searchButton && searchInput) {
     searchButton.addEventListener('click', performSearch);
-    searchInput.addEventListener('input', performSearch);
+    if (document.getElementById('catalog')) searchInput.addEventListener('input', performSearch);
+    searchInput.addEventListener('keydown', event => { if (event.key === 'Enter') performSearch(); });
+    if (document.getElementById('catalog') && new URLSearchParams(location.search).has('q')) {
+      searchInput.value = new URLSearchParams(location.search).get('q');
+      performSearch();
+    }
   }
 });

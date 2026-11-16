@@ -44,123 +44,20 @@
     <a href="#">Витратні матеріали</a>
   </nav>
  
-  <div class="container product-page-container">
-    
-    <div class="breadcrumbs">
-      <a href="index.html">Головна</a> &gt; 
-      <a href="#">Каталог</a> &gt; 
-      <span id="breadcrumb-name">Товар</span>
-    </div>
- 
-    <section class="product-detail">
-      <div class="product-gallery">
-        <div class="main-image-wrapper">
-          <span class="product-badge sale" id="product-badge" style="display:none;"></span>
-          <img id="main-product-img" src="" alt="Фото товару">
-        </div>
-        <div class="thumbnails" id="thumbnail-container"></div>
-      </div>
- 
-      <div class="product-info-block">
-        <div class="product-meta">
-          <span class="sku">Артикул: <b id="product-sku">---</b></span>
-          <span class="stock-status in-stock">● В наявності</span>
-        </div>
- 
-        <h1 class="product-main-title" id="product-title">Завантаження...</h1>
- 
-        <div class="product-rating">
-          <span class="stars">★★★★★</span>
-          <span class="reviews-count">(14 відгуків)</span>
-        </div>
- 
-        <div class="price-box">
-          <div class="old-price" id="product-old-price" style="display:none;"></div>
-          <div class="current-price" id="product-price">0 ₴</div>
-          <span class="economy-badge" id="product-economy" style="display:none;"></span>
-        </div>
- 
-        <p class="short-description" id="product-desc"></p>
- 
-        <div class="purchase-controls">
-          <div class="quantity-selector">
-            <button type="button" class="qty-btn minus">-</button>
-            <input type="number" id="product-qty" value="1" min="1" max="99">
-            <button type="button" class="qty-btn plus">+</button>
-          </div>
-          <button type="button" class="add-to-cart-large">🛒 Додати в кошик</button>
-        </div>
-        
-        <button type="button" class="buy-one-click">Швидке замовлення в 1 клік</button>
- 
-        <div class="delivery-perks">
-          <div class="perk-item">
-            <span class="perk-icon">🚚</span>
-            <div>
-              <strong>Швидка доставка</strong>
-              <p>Відправка Новою Поштою / Укрпоштою в день замовлення</p>
-            </div>
-          </div>
-          <div class="perk-item">
-            <span class="perk-icon">🛡️</span>
-            <div>
-              <strong>Офіційна гарантія</strong>
-              <p>36 місяців гарантії від виробника</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
- 
-    <section class="product-tabs-section">
-      <div class="tabs-header">
-        <button class="tab-btn active" data-tab="description">Опис товару</button>
-        <button class="tab-btn" data-tab="specs">Характеристики</button>
-        <button class="tab-btn" data-tab="reviews">Відгуки (14)</button>
-      </div>
- 
-      <div class="tab-content active" id="tab-description">
-        <h3>Детальний опис</h3>
-        <p id="tab-desc-text"></p>
-      </div>
- 
-      <div class="tab-content" id="tab-specs">
-        <h3>Технічні характеристики</h3>
-        <table class="specs-table" id="specs-table"></table>
-      </div>
- 
-      <div class="tab-content" id="tab-reviews">
-        <h3>Відгуки покупців</h3>
-        <div class="reviews-list">
-          <div class="review-card">
-            <div class="review-header">
-              <strong>Василь М.</strong>
-              <span class="stars">★★★★★</span>
-            </div>
-            <p class="review-date">12 жовтня 2026</p>
-            <p class="review-text">Чудовий інструмент, рекомендую!</p>
-          </div>
-        </div>
-      </div>
-    </section>
- 
-    <!-- Схожі товари -->
-    <section class="related-products">
-      <h2>З цим товаром також купують</h2>
-      <div class="catalog" id="related-catalog"></div>
-    </section>
- 
-  </div>
- 
+  <main class="container product-page-container" id="product-page">
+    <noscript>Для перегляду товару увімкніть JavaScript.</noscript>
+  </main>
+
   <footer>
     <div class="footer-bottom">
       &copy; 2026 ElectroTool. Всі права захищені.
     </div>
   </footer>
  
-  <script src="selected-product.js"></script>
-  <script src="script.js"></script>
+  <script src="products.js"></script>
+  <script src="catalog.js"></script>
   <script src="product-script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
  
