@@ -110,5 +110,17 @@ window.PRODUCTS = {
     "badge": "",
     "oldPrice": 2900,
     "description": "Лобзик Bosch PST 650 в чемодані. Категорія: Лобзики та пили."
+  },
+
+  "9": {
+    "title": "САБЕЛЬНА ПИЛКА DEWALT DCS380N (36V, 5AH)",
+    "price": 4460,
+    "images": [
+      "Images/product9.webp"
+    ],
+    "category": "Лобзики та пили",
+    "badge": "",
+    "oldPrice": 6250,
+    "description": "САБЕЛЬНА ПИЛКА DEWALT DCS380N (36V, 5AH). Категорія: Лобзики та пили."
   }
 };
